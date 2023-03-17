@@ -118,5 +118,28 @@ tabla.heading('#6', text="Fecha", anchor=CENTER)
 tabla.column('#7', width=100)
 tabla.heading('#7', text="Triage", anchor=CENTER)
 
+# Menu de opciones
+
+menu_opciones = Menu(root)
+root.config(menu=menu_opciones)
+
+menu_buscar = Menu(menu_opciones, tearoff=0)
+menu_buscar.add_command(label='Buscar registro')
+
+menu_limpiar = Menu(menu_opciones, tearoff=0)
+menu_limpiar.add_command(label='Campos')
+menu_limpiar.add_command(label='Tabla')
+menu_limpiar.add_command(label='Registro')
+
+menu_est = Menu(menu_opciones, tearoff=0)
+menu_est.add_command(label='Triage')
+menu_est.add_command(label='Semanas de gestación')
+menu_est.add_command(label='Edad')
+menu_est.add_command(label='Fecha')
+
+
+menu_opciones.add_cascade(label='Buscar', menu=menu_buscar)
+menu_opciones.add_cascade(label='Limpiar', menu=menu_limpiar)
+menu_opciones.add_cascade(label='Estadisticas', menu=menu_est)
 
 root.mainloop()
