@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter import ttk
 import queries
 import psycopg2
+from datetime import datetime
 
 
 def run():
@@ -45,6 +46,18 @@ def run():
         for registro in registros:
             tabla.delete(registro)
 
+    def inserta_datos():
+
+        conexion = psycopg2.connect(
+            host='localhost', database='Consulta', user='postgres', password='181208')
+        mifecha = datetime.now()
+        actual = mifecha.strftime('%Y-%m-%d %H:%M:%S')
+        cursor1 = conexion.cursor()
+        cursor1.execute(
+            "INSERT INTO paciente (nombres, ap_paterno, ap_materno, edad, sdg, motivo_consulta, fecha, id_triage) VALUES('" + nombres.get() + "','" + ap_paterno.get() + "','" + ap_materno.get() + "'," + edad.get() + "," + semanas.get() + ",'" + motivo.get() + "','" + str(actual) + "'," + seleccion.get() + ")")
+        conexion.commit()
+        conexion.close()
+
     # Etiqueta datos generales
 
     label_datos = Label(frame_1, text='Datos Generales',
@@ -57,12 +70,18 @@ def run():
     frame_2.pack()
     frame_2.config(bg='gray90')
 
+    nombres = StringVar()
+    ap_paterno = StringVar()
+    ap_materno = StringVar()
+    edad = StringVar()
+    semanas = StringVar()
+    motivo = StringVar()
     # Nombres
 
     label_nombre = Label(frame_2, text='Nombres',
                          fg='MediumPurple3', font=('sans serif', 11, 'bold'), bg='gray90')
     label_nombre.grid(row=0, column=0, padx=20, sticky='w')
-    entry_nombre = Entry(frame_2, width=25)
+    entry_nombre = Entry(frame_2, width=25, textvariable=nombres)
     entry_nombre.grid(row=1, column=0, padx=20, pady=5)
 
     # Apellido paterno
@@ -70,7 +89,7 @@ def run():
     label_apaterno = Label(frame_2, text='Apellido Paterno',
                            fg='MediumPurple3', font=('sans serif', 11, 'bold'), bg='gray90')
     label_apaterno.grid(row=0, column=1, padx=20, sticky='w')
-    entry_apaterno = Entry(frame_2, width=25)
+    entry_apaterno = Entry(frame_2, width=25, textvariable=ap_paterno)
     entry_apaterno.grid(row=1, column=1, padx=20, pady=5)
 
     # Apellido materno
@@ -78,7 +97,7 @@ def run():
     label_materno = Label(frame_2, text='Apellido Materno',
                           fg='MediumPurple3', font=('sans serif', 11, 'bold'), bg='gray90')
     label_materno.grid(row=0, column=2, padx=20, sticky='w')
-    entry_materno = Entry(frame_2, width=25)
+    entry_materno = Entry(frame_2, width=25, textvariable=ap_materno)
     entry_materno.grid(row=1, column=2, padx=20, pady=5)
 
     # Edad
@@ -86,7 +105,7 @@ def run():
     label_edad = Label(frame_2, text='Edad', fg='MediumPurple3',
                        font=('sans serif', 11, 'bold'), bg='gray90')
     label_edad.grid(row=0, column=3, padx=20, sticky='w')
-    entry_edad = Entry(frame_2, width=10)
+    entry_edad = Entry(frame_2, width=10, textvariable=edad)
     entry_edad.grid(row=1, column=3, padx=20, pady=5)
 
     # Semanas de gestación
@@ -94,7 +113,7 @@ def run():
     label_semanas = Label(frame_2, text='Semanas de gestacíon',
                           fg='MediumPurple3', font=('sans serif', 11, 'bold'), bg='gray90')
     label_semanas.grid(row=0, column=4, padx=20, sticky='w')
-    entry_semanas = Entry(frame_2, width=10)
+    entry_semanas = Entry(frame_2, width=10, textvariable=semanas)
     entry_semanas.grid(row=1, column=4, padx=20, pady=5, sticky='w')
 
     # Motivo consulta
@@ -102,7 +121,7 @@ def run():
     label_motivo = Label(frame_2, text='Motivo de consulta',
                          fg='MediumPurple3', font=('sans serif', 11, 'bold'), bg='gray90')
     label_motivo.grid(row=2, column=0, padx=20, pady=10, sticky='w')
-    entry_motivo = Entry(frame_2, width=25)
+    entry_motivo = Entry(frame_2, width=25, textvariable=motivo)
     entry_motivo.grid(row=3, column=0, padx=10, pady=10)
 
     # Triage
@@ -110,13 +129,13 @@ def run():
     colores = {1: 'Verde', 2: 'Amarillo', 3: 'Rojo'}
     seleccion = StringVar(frame_2)
     seleccion.set('Codigo Triage')
-    menumotivo = OptionMenu(frame_2, seleccion, *colores.values())
+    menumotivo = OptionMenu(frame_2, seleccion, *colores.keys())
     menumotivo.grid(row=3, column=1)
     menumotivo.config(fg='MediumPurple4', font=('sans serif', 11, 'bold'))
     # Botones
 
     guardar = Button(frame_2, text="Guardar", width=10,
-                     fg='MediumPurple4', font=('sans serif', 11, 'bold'))
+                     fg='MediumPurple4', font=('sans serif', 11, 'bold'), command=inserta_datos)
     guardar.grid(row=3, column=2)
 
     boton_ver = Button(frame_2, text="Registros", width=10,
