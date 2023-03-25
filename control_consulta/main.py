@@ -3,6 +3,7 @@ from tkinter import ttk
 import queries
 import psycopg2
 from datetime import datetime
+import validaciones
 
 
 def run():
@@ -60,7 +61,7 @@ def run():
 
     # Etiqueta datos generales
 
-    label_datos = Label(frame_1, text='Datos Generales',
+    label_datos = Label(frame_1, text='Datos de Paciente',
                         fg='MediumPurple3', font=('sans serif', 18, 'bold'), bg='gray90')
     label_datos.grid(row=0, column=0, padx=30, pady=20)
 
@@ -81,7 +82,8 @@ def run():
     label_nombre = Label(frame_2, text='Nombres',
                          fg='MediumPurple3', font=('sans serif', 11, 'bold'), bg='gray90')
     label_nombre.grid(row=0, column=0, padx=20, sticky='w')
-    entry_nombre = Entry(frame_2, width=25, textvariable=nombres)
+    entry_nombre = Entry(frame_2, width=25, textvariable=nombres, validate='key',
+                         validatecommand=(root.register(validaciones.validar_nombre), '%S'))
     entry_nombre.grid(row=1, column=0, padx=20, pady=5)
 
     # Apellido paterno
@@ -89,7 +91,8 @@ def run():
     label_apaterno = Label(frame_2, text='Apellido Paterno',
                            fg='MediumPurple3', font=('sans serif', 11, 'bold'), bg='gray90')
     label_apaterno.grid(row=0, column=1, padx=20, sticky='w')
-    entry_apaterno = Entry(frame_2, width=25, textvariable=ap_paterno)
+    entry_apaterno = Entry(frame_2, width=25, textvariable=ap_paterno, validate='key',
+                           validatecommand=(root.register(validaciones.validar_nombre), '%S'))
     entry_apaterno.grid(row=1, column=1, padx=20, pady=5)
 
     # Apellido materno
@@ -97,7 +100,8 @@ def run():
     label_materno = Label(frame_2, text='Apellido Materno',
                           fg='MediumPurple3', font=('sans serif', 11, 'bold'), bg='gray90')
     label_materno.grid(row=0, column=2, padx=20, sticky='w')
-    entry_materno = Entry(frame_2, width=25, textvariable=ap_materno)
+    entry_materno = Entry(frame_2, width=25, textvariable=ap_materno, validate='key',
+                          validatecommand=(root.register(validaciones.validar_nombre), '%S'))
     entry_materno.grid(row=1, column=2, padx=20, pady=5)
 
     # Edad
@@ -105,7 +109,8 @@ def run():
     label_edad = Label(frame_2, text='Edad', fg='MediumPurple3',
                        font=('sans serif', 11, 'bold'), bg='gray90')
     label_edad.grid(row=0, column=3, padx=20, sticky='w')
-    entry_edad = Entry(frame_2, width=10, textvariable=edad)
+    entry_edad = Entry(frame_2, width=10, textvariable=edad, validate='key', validatecommand=(
+        root.register(validaciones.validar_num), '%S', '%P'))
     entry_edad.grid(row=1, column=3, padx=20, pady=5)
 
     # Semanas de gestación
@@ -113,7 +118,8 @@ def run():
     label_semanas = Label(frame_2, text='Semanas de gestacíon',
                           fg='MediumPurple3', font=('sans serif', 11, 'bold'), bg='gray90')
     label_semanas.grid(row=0, column=4, padx=20, sticky='w')
-    entry_semanas = Entry(frame_2, width=10, textvariable=semanas)
+    entry_semanas = Entry(frame_2, width=10, textvariable=semanas, validate='key', validatecommand=(
+        root.register(validaciones.validar_sdg), '%S', '%P'))
     entry_semanas.grid(row=1, column=4, padx=20, pady=5, sticky='w')
 
     # Motivo consulta
@@ -121,7 +127,8 @@ def run():
     label_motivo = Label(frame_2, text='Motivo de consulta',
                          fg='MediumPurple3', font=('sans serif', 11, 'bold'), bg='gray90')
     label_motivo.grid(row=2, column=0, padx=20, pady=10, sticky='w')
-    entry_motivo = Entry(frame_2, width=25, textvariable=motivo)
+    entry_motivo = Entry(frame_2, width=25, textvariable=motivo, validate='key',
+                         validatecommand=(root.register(validaciones.validar_nombre), '%S'))
     entry_motivo.grid(row=3, column=0, padx=10, pady=10)
 
     # Triage
