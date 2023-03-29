@@ -1,7 +1,7 @@
 import psycopg2
 
 
-def load_data():
+def load_data(tabla):
 
     conexion = psycopg2.connect(
         host='localhost', database='Consulta', user='postgres', password='181208')

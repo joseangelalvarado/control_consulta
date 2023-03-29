@@ -4,6 +4,7 @@ import queries
 import psycopg2
 from datetime import datetime
 import validaciones
+import viz
 
 
 def run():
@@ -46,6 +47,16 @@ def run():
 
         for registro in registros:
             tabla.delete(registro)
+
+    def borracampos():
+
+        nombres.set("")
+        ap_paterno.set("")
+        ap_materno.set("")
+        edad.set("")
+        semanas.set("")
+        motivo.set("")
+        seleccion.set("Codigo Triage")
 
     def inserta_datos():
 
@@ -185,9 +196,9 @@ def run():
     menu_buscar.add_command(label='Buscar registro')
 
     menu_limpiar = Menu(menu_opciones, tearoff=0)
-    menu_limpiar.add_command(label='Campos')
+    menu_limpiar.add_command(label='Campos', command=borracampos)
     menu_limpiar.add_command(label='Tabla', command=clean_table)
-    menu_limpiar.add_command(label='Registro')
+    menu_limpiar.add_command(label='Registro', command=viz.grafica_triage)
 
     menu_est = Menu(menu_opciones, tearoff=0)
     menu_est.add_command(label='Triage')
