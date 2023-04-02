@@ -198,13 +198,13 @@ def run():
     menu_limpiar = Menu(menu_opciones, tearoff=0)
     menu_limpiar.add_command(label='Campos', command=borracampos)
     menu_limpiar.add_command(label='Tabla', command=clean_table)
-    menu_limpiar.add_command(label='Registro', command=viz.grafica_triage)
+    menu_limpiar.add_command(label='Registro')
 
     menu_est = Menu(menu_opciones, tearoff=0)
-    menu_est.add_command(label='Triage')
+    menu_est.add_command(label='Triage', command=viz.grafica_triage)
     menu_est.add_command(label='Semanas de gestación')
-    menu_est.add_command(label='Edad')
-    menu_est.add_command(label='Fecha')
+    menu_est.add_command(label='Edad', command=viz.grafica_edad)
+    menu_est.add_command(label='Fecha', command=viz.grafica_fecha)
 
     menu_opciones.add_cascade(label='Buscar', menu=menu_buscar)
     menu_opciones.add_cascade(label='Limpiar', menu=menu_limpiar)
