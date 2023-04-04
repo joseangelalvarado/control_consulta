@@ -202,7 +202,7 @@ def run():
 
     menu_est = Menu(menu_opciones, tearoff=0)
     menu_est.add_command(label='Triage', command=viz.grafica_triage)
-    menu_est.add_command(label='Semanas de gestación')
+    menu_est.add_command(label='Semanas de gestación', command=viz.grafica_semanas)
     menu_est.add_command(label='Edad', command=viz.grafica_edad)
     menu_est.add_command(label='Fecha', command=viz.grafica_fecha)
 
