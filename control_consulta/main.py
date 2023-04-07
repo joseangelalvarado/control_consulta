@@ -193,7 +193,7 @@ def run():
     root.config(menu=menu_opciones)
 
     menu_buscar = Menu(menu_opciones, tearoff=0)
-    menu_buscar.add_command(label='Buscar registro')
+    menu_buscar.add_command(label='Buscar registro', command=viz.queries)
 
     menu_limpiar = Menu(menu_opciones, tearoff=0)
     menu_limpiar.add_command(label='Campos', command=borracampos)
@@ -202,7 +202,8 @@ def run():
 
     menu_est = Menu(menu_opciones, tearoff=0)
     menu_est.add_command(label='Triage', command=viz.grafica_triage)
-    menu_est.add_command(label='Semanas de gestación', command=viz.grafica_semanas)
+    menu_est.add_command(label='Semanas de gestación',
+                         command=viz.grafica_semanas)
     menu_est.add_command(label='Edad', command=viz.grafica_edad)
     menu_est.add_command(label='Fecha', command=viz.grafica_fecha)
 

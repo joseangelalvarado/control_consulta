@@ -2,6 +2,7 @@ import psycopg2
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
+import pandas as pd
 
 
 def grafica_triage():
@@ -36,7 +37,7 @@ def grafica_triage():
     plt.show()
 
 
-def grafica_fecha():
+'''def grafica_fecha():
 
     conexion = psycopg2.connect(
         host='localhost', database='Consulta', user='postgres', password='181208')
@@ -59,7 +60,7 @@ def grafica_fecha():
     xticks = plt.xticks()[0]
     plt.title('Consultas por Fechas')
     plt.xticks(xticks[::1])
-    plt.show()
+    plt.show()'''
 
 
 def grafica_edad():
@@ -68,19 +69,22 @@ def grafica_edad():
         host='localhost', database='Consulta', user='postgres', password='181208')
     cursor1 = conexion.cursor()
     cursor1.execute(
-        'SELECT edad FROM paciente')
+        'SELECT edad, COUNT(*) as total_edad FROM paciente GROUP BY edad')
     paciente = cursor1.fetchall()
 
-    edad = []
+    edades = []
+    totales = []
 
-    for row in paciente:
-        edad.append(row[0])
+    for edad, total_edad in paciente:
+        edades.append(edad)
+        totales.append(total_edad)
 
     cursor1.close()
     conexion.close()
-
-    plt.hist(edad, bins=20, cumulative=False,
-             rwidth=0.9, color='darkslateblue')
+    etiquetas = [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27,
+                 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42]
+    fig, ax = plt.subplots()
+    ax.bar(edades, totales)
     plt.title('Consulta por Edad')
     plt.show()
 
@@ -134,3 +138,33 @@ def grafica_semanas():
             pctdistance=1.2, labeldistance=1.4)
     plt.title('Consulta por trimestre')
     plt.show()
+
+
+def grafica_fecha():
+
+    conexion = psycopg2.connect(
+        host='localhost', database='Consulta', user='postgres', password='181208')
+    cursor1 = conexion.cursor()
+
+    query = """ SELECT fecha FROM paciente"""
+
+    df = pd.read_sql(query, conexion)
+    df['fecha'] = pd.to_datetime(df['fecha'], format='%Y/%b/%d')
+    df = df.groupby(pd.Grouper(key='fecha', freq='M')
+                    ).size().reset_index(name='count')
+    df['month'] = df['fecha'].dt.year
+    df = df.sort_values(by='month')
+
+    plt.plot(df['fecha'].dt.strftime('%Y/%b'), df['count'])
+    plt.show()
+
+
+def queries():
+
+    conexion = psycopg2.connect(
+        host='localhost', database='Consulta', user='postgres', password='181208')
+    cursor1 = conexion.cursor()
+    df = pd.read_sql(
+        'SELECT * FROM paciente', conexion)
+
+    df.to_csv('C:\\Users\\angel\\Desktop\\Proyectos\\Platzi\\base_consulta.csv')
