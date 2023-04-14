@@ -24,3 +24,8 @@ def validar_sdg(text1, num2):
         return False
 
     return text1.isdecimal()
+
+
+def cap(ap_paterno):
+
+    ap_paterno.set(ap_paterno.get().capitalize())

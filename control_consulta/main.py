@@ -41,6 +41,22 @@ def run():
         except:
             pass
 
+    def busca_data():
+
+        conexion = psycopg2.connect(
+            host='localhost', database='Consulta', user='postgres', password='181208')
+        cursor1 = conexion.cursor()
+        try:
+            cursor1.execute(
+                "SELECT nombres, ap_paterno, ap_materno, edad, sdg, motivo_consulta, fecha, codigo FROM paciente INNER JOIN triage ON triage.id_triage = paciente.id_triage WHERE ap_paterno = '" + ap_paterno.get() + "'AND ap_materno = '" + ap_materno.get() + "'")
+            for row in cursor1.fetchall():
+                tabla.insert("", 0, text=row[0], values=(
+                    row[1], row[2], row[3], row[4], row[5], row[6], row[7]))
+
+            conexion.close()
+        except:
+            pass
+
     def clean_table():
 
         registros = tabla.get_children()
@@ -88,6 +104,19 @@ def run():
     edad = StringVar()
     semanas = StringVar()
     motivo = StringVar()
+
+    def cap(event):
+
+        ap_paterno.set(ap_paterno.get().capitalize())
+
+    def cap1(event):
+
+        ap_materno.set(ap_materno.get().capitalize())
+
+    def cap2(event):
+
+        nombres.set(nombres.get().capitalize())
+
     # Nombres
 
     label_nombre = Label(frame_2, text='Nombres',
@@ -96,6 +125,7 @@ def run():
     entry_nombre = Entry(frame_2, width=25, textvariable=nombres, validate='key',
                          validatecommand=(root.register(validaciones.validar_nombre), '%S'))
     entry_nombre.grid(row=1, column=0, padx=20, pady=5)
+    entry_nombre.bind("<KeyRelease>", cap2)
 
     # Apellido paterno
 
@@ -105,6 +135,7 @@ def run():
     entry_apaterno = Entry(frame_2, width=25, textvariable=ap_paterno, validate='key',
                            validatecommand=(root.register(validaciones.validar_nombre), '%S'))
     entry_apaterno.grid(row=1, column=1, padx=20, pady=5)
+    entry_apaterno.bind("<KeyRelease>", cap)
 
     # Apellido materno
 
@@ -114,6 +145,7 @@ def run():
     entry_materno = Entry(frame_2, width=25, textvariable=ap_materno, validate='key',
                           validatecommand=(root.register(validaciones.validar_nombre), '%S'))
     entry_materno.grid(row=1, column=2, padx=20, pady=5)
+    entry_materno.bind("<KeyRelease>", cap1)
 
     # Edad
 
@@ -193,7 +225,7 @@ def run():
     root.config(menu=menu_opciones)
 
     menu_buscar = Menu(menu_opciones, tearoff=0)
-    menu_buscar.add_command(label='Buscar registro', command=viz.queries)
+    menu_buscar.add_command(label='Buscar registro', command=busca_data)
 
     menu_limpiar = Menu(menu_opciones, tearoff=0)
     menu_limpiar.add_command(label='Campos', command=borracampos)
