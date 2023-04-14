@@ -41,7 +41,7 @@ def run():
         except:
             pass
 
-    def busca_data():
+    def busca_datos():
 
         conexion = psycopg2.connect(
             host='localhost', database='Consulta', user='postgres', password='181208')
@@ -225,7 +225,7 @@ def run():
     root.config(menu=menu_opciones)
 
     menu_buscar = Menu(menu_opciones, tearoff=0)
-    menu_buscar.add_command(label='Buscar registro', command=busca_data)
+    menu_buscar.add_command(label='Buscar registro', command=busca_datos)
 
     menu_limpiar = Menu(menu_opciones, tearoff=0)
     menu_limpiar.add_command(label='Campos', command=borracampos)
