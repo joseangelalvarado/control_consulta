@@ -1,6 +1,4 @@
 <<<<<<< HEAD
-# Python_1
-Comenzando _en_Python
 =======
 # control_consulta
 Software para registrar la consulta de pacientes en área de tococirugía añadiendo análisis de datos con visualizaciones
